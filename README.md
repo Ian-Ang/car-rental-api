@@ -1,0 +1,73 @@
+
+# Project Struxture
+
+rentalcar-api/
+│
+├── cmd/
+│   └── main.go                     # Application entrypoint
+│
+├── config/
+│   └── config.go                   # Env config, DB connection
+│
+├── controllers/
+│   ├── auth_controller.go
+│   ├── user_controller.go
+│   ├── car_controller.go
+│   ├── booking_controller.go
+│   ├── review_controller.go
+│   ├── role_controller.go
+│   ├── discount_controller.go
+│   ├── insurance_controller.go
+│   ├── category_controller.go
+│   ├── location_controller.go
+│   ├── maintenance_controller.go
+│   └── payment_controller.go
+│
+├── dto/
+│   ├── auth_dto.go
+│   ├── user_dto.go
+│   ├── car_dto.go
+│   ├── booking_dto.go
+│   ├── review_dto.go
+│   ├── role_dto.go
+│   ├── discount_dto.go
+│   ├── insurance_dto.go
+│   ├── category_dto.go
+│   ├── location_dto.go
+│   ├── maintenance_dto.go
+│   └── payment_dto.go
+│
+├── middleware/
+│   ├── auth_middleware.go
+│   └── role_middleware.go         # OnlyAdmin(), OnlyCustomer()
+│
+├── models/
+│   ├── user.go
+│   ├── role.go
+│   ├── car.go
+│   ├── booking.go
+│   ├── payment.go
+│   ├── review.go
+│   ├── discount.go
+│   ├── insurance.go
+│   ├── category.go
+│   ├── location.go
+│   └── maintenance.go
+│
+├── routes/
+│   └── router.go                  # Grouped API route registration
+│
+├── seed/
+│   └── role_seed.go               # SeedRoles() for admin/customer roles
+│
+├── utils/
+│   ├── jwt.go                     # JWT generation and validation
+│   └── hash.go                # Hashing, comparison utils
+│
+├── go.mod
+├── go.sum
+|
+└── docs/                      # Optional: Swagger or README
+    ├── docs.go                
+    ├── swagger.json           
+    └── swagger.yaml
