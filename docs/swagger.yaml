@@ -1,0 +1,314 @@
+basePath: /api/v1
+definitions:
+  dto.LoginInput:
+    properties:
+      email:
+        example: ian@gmail.com
+        type: string
+      password:
+        example: P@ssW0rd
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.RegisterInput:
+    properties:
+      email:
+        example: ian@gmail.com
+        type: string
+      name:
+        example: Rian
+        type: string
+      password:
+        example: P@ssW0rd
+        minLength: 6
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  dto.RoleInput:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  dto.RoleOutput:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  dto.UserOutput:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+    type: object
+host: 192.168.1.217:8443
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: DOCS CAR RENTAL SYSTEM
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: CAR RENTAL SYSTEM
+  version: 0.0.1
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login to Generate JWT token
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Login
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Add a new user
+      parameters:
+      - description: Payload body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Register
+      tags:
+      - Auth
+  /roles/:
+    get:
+      consumes:
+      - application/json
+      description: list of all role
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RoleOutput'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Get role
+      tags:
+      - Role
+    post:
+      consumes:
+      - application/json
+      description: Add a new role
+      parameters:
+      - description: Payload body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RoleInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RoleOutput'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Create role
+      tags:
+      - Role
+  /roles/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update role by ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payload body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RoleInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Update role
+      tags:
+      - Role
+  /users/:
+    get:
+      consumes:
+      - application/json
+      description: List of all user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserOutput'
+      security:
+      - BearerAuth: []
+      summary: Get users
+      tags:
+      - User
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete users (Admin Only) by user ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Delete users
+      tags:
+      - User
+  /users/getdeleletuser:
+    get:
+      consumes:
+      - application/json
+      description: Get all delete users (Admin Only)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Get Delete users
+      tags:
+      - User
+  /users/me:
+    get:
+      consumes:
+      - application/json
+      description: List detail my profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserOutput'
+        "404":
+          description: Not Found
+      security:
+      - BearerAuth: []
+      summary: Get My Profile
+      tags:
+      - User
+  /users/restore/{id}:
+    post:
+      consumes:
+      - application/json
+      description: Restore users (Admin Only) by user ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      security:
+      - BearerAuth: []
+      summary: Restore users
+      tags:
+      - User
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
